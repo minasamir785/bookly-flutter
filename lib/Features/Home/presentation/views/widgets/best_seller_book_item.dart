@@ -1,15 +1,21 @@
 import 'package:bookly/Core/utils/styles.dart';
+import 'package:bookly/Features/Home/data/models/book_model/book_model.dart';
 import 'package:bookly/Features/Home/presentation/views/book_details_view.dart';
 import 'package:bookly/Features/Home/presentation/views/widgets/best_seller_book_rating_and_price.dart';
 import 'package:bookly/constant.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class BestSellerBook extends StatelessWidget {
   const BestSellerBook({
     super.key,
+    required this.bookModel,
   });
 
+  final BookModel bookModel;
+
+  //
   @override
   Widget build(BuildContext context) {
     //
@@ -20,7 +26,7 @@ class BestSellerBook extends StatelessWidget {
     //
     return InkWell(
       onTap: () {
-        GoRouter.of(context).push(BookDetialsView.route);
+        GoRouter.of(context).push(BookDetialsView.route, extra: bookModel);
       },
       child: Container(
         padding: EdgeInsets.symmetric(
@@ -44,9 +50,9 @@ class BestSellerBook extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 direction: Axis.vertical,
                 children: [
-                  ...BookNameAndAutherName(),
-                  const Flexible(
-                    child: BestSellerBookRatingsAndPrice(),
+                  ...bestSellerBookSchimmer(),
+                  Flexible(
+                    child: BestSellerBookRatingsAndPrice(bookmodel: bookModel),
                   ),
                 ],
               ),
@@ -57,11 +63,11 @@ class BestSellerBook extends StatelessWidget {
     );
   }
 
-  List<Widget> BookNameAndAutherName() {
+  List<Widget> bestSellerBookSchimmer() {
     return [
       Flexible(
         child: Text(
-          "Harry Potter and the Chamber of Secrets ",
+          bookModel.volumeInfo!.title!,
           overflow: TextOverflow.ellipsis,
           maxLines: 2,
           style: Styles.textstyle20.copyWith(
@@ -70,7 +76,9 @@ class BestSellerBook extends StatelessWidget {
         ),
       ),
       Text(
-        "J. K. Rowling",
+        (bookModel.volumeInfo!.authors ?? []).join(", "),
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
         style: Styles.textstyleLowOpacity14,
       ),
     ];
@@ -83,11 +91,15 @@ class BestSellerBook extends StatelessWidget {
         alignment: Alignment.bottomRight,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          image: const DecorationImage(
-            image: NetworkImage(
-              "https://picsum.photos/200/300",
+        ),
+        child: CachedNetworkImage(
+          imageUrl: bookModel.volumeInfo!.imageLinks?.thumbnail ?? "",
+          errorWidget: (context, url, error) => const Center(
+            child: Icon(
+              Icons.error,
+              color: Colors.red,
+              size: 30,
             ),
-            fit: BoxFit.fill,
           ),
         ),
       ),

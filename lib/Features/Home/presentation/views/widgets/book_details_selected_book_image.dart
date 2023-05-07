@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class BookDetailsSelectedBookImage extends StatelessWidget {
@@ -5,10 +6,12 @@ class BookDetailsSelectedBookImage extends StatelessWidget {
     super.key,
     this.imageHeight,
     this.aspectRatio,
+    this.imgUrl,
   });
 
   final double? imageHeight;
   final double? aspectRatio;
+  final String? imgUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +30,11 @@ class BookDetailsSelectedBookImage extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: deviceWidth * (100 / 375)),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
-            image: const DecorationImage(
+            image: DecorationImage(
               fit: BoxFit.fill,
-              image: NetworkImage("https://picsum.photos/200/300"),
+              image: CachedNetworkImageProvider(
+                imgUrl ?? "",
+              ),
             ),
           ),
         ),

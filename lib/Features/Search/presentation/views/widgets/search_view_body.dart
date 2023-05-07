@@ -13,10 +13,10 @@ class SearchViewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Column(
-        children: const [
+        children: [
           SearchTextField(),
-          SearchResultsText(),
-          Expanded(
+          const SearchResultsText(),
+          const Expanded(
             child: SearchResultsBooksList(),
           ),
         ],

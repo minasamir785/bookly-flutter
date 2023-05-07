@@ -1,8 +1,12 @@
 import 'package:bookly/Core/utils/styles.dart';
+import 'package:bookly/Features/Home/data/models/book_model/book_model.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BookDetailsPriceAndFreePreview extends StatelessWidget {
-  const BookDetailsPriceAndFreePreview({super.key});
+  final BookModel book;
+
+  const BookDetailsPriceAndFreePreview({super.key, required this.book});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +21,10 @@ class BookDetailsPriceAndFreePreview extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           InkWell(
-            onTap: () {},
+            onTap: () async {
+              await launchUrl(
+                  Uri.parse(book.accessInfo!.pdf?.acsTokenLink ?? ""));
+            },
             child: Container(
               alignment: Alignment.center,
               height: deviceHeight * (50 / 810),
@@ -30,13 +37,15 @@ class BookDetailsPriceAndFreePreview extends StatelessWidget {
                 color: Colors.white,
               ),
               child: Text(
-                "19.99 €",
+                "Free",
                 style: Styles.textstyle18.copyWith(color: Colors.black),
               ),
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () async {
+              await launchUrl(Uri.parse(book.volumeInfo!.previewLink ?? ""));
+            },
             child: Container(
               alignment: Alignment.center,
               height: deviceHeight * (50 / 810),
@@ -48,7 +57,7 @@ class BookDetailsPriceAndFreePreview extends StatelessWidget {
                 ),
                 color: Color(0xffEF8262),
               ),
-              child: Text(
+              child: const Text(
                 "Free preview",
                 style: Styles.textstyle16,
               ),

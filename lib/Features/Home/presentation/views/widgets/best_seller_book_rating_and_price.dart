@@ -1,10 +1,11 @@
 import 'package:bookly/Core/utils/styles.dart';
+import 'package:bookly/Features/Home/data/models/book_model/book_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class BestSellerBookRatingsAndPrice extends StatelessWidget {
-  const BestSellerBookRatingsAndPrice({super.key});
+  const BestSellerBookRatingsAndPrice({super.key, required this.bookmodel});
+
+  final BookModel bookmodel;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class BestSellerBookRatingsAndPrice extends StatelessWidget {
       direction: Axis.horizontal,
       children: [
         Text(
-          "19.99\$",
+          "Free",
           style: Styles.textstyle20.copyWith(fontWeight: FontWeight.bold),
         ),
         SizedBox(
@@ -33,12 +34,12 @@ class BestSellerBookRatingsAndPrice extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                " 4.7",
+              Text(
+                " ${bookmodel.volumeInfo!.averageRating ?? 0}",
                 style: Styles.textstyle16,
               ),
               Text(
-                "(2222)",
+                "(${bookmodel.volumeInfo!.ratingsCount ?? 0})",
                 overflow: TextOverflow.ellipsis,
                 style: Styles.textstyleLowOpacity14,
               ),

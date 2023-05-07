@@ -20,11 +20,13 @@ class HomeRepImplementation implements HomeRepo {
     try {
       var data = await apiService.get(
           endPoint:
-              "volumes?Filtering=free-ebooks&Sorting=newest &q=subject: computer science");
+              "volumes?Filtering=free-ebooks&Sorting=newest &q=subject:programming");
       List<BookModel> books = [];
+
       for (var element in data["items"]) {
         books.add(BookModel.fromJson(element));
       }
+
       return right(books);
     } catch (e) {
       if (e is DioError) {
@@ -40,13 +42,44 @@ class HomeRepImplementation implements HomeRepo {
   Future<Either<Faliure, List<BookModel>>> fetchFeaturedBooks() async {
     try {
       var data = await apiService.get(
-          endPoint:
-              "volumes?Filtering=free-ebooks&q=subject: computer science");
+          endPoint: "volumes?Filtering=free-ebooks&q=subject:computer");
       //
       List<BookModel> books = [];
+
       for (var element in data["items"]) {
         books.add(BookModel.fromJson(element));
       }
+
+      //
+      return right(books);
+    } catch (e) {
+      if (e is DioError) {
+        return left(
+          ServerFailure.fromDioError(dioError: e),
+        );
+      }
+      return left(ServerFailure(errorMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Faliure, List<BookModel>>> fetchSimilarBooks(
+      {required String bookName}) async {
+    try {
+      var data = await apiService.get(
+          endPoint:
+              "volumes?Filtering=free-ebooks&q=subject: ${bookName.toLowerCase()}");
+      //
+      List<BookModel> books = [];
+
+      for (var element in data["items"]) {
+        try {
+          books.add(BookModel.fromJson(element));
+        } catch (e) {
+          books.add(BookModel.fromJson(element));
+        }
+      }
+
       //
       return right(books);
     } catch (e) {

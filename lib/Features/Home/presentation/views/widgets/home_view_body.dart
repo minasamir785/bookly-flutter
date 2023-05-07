@@ -1,5 +1,6 @@
 import 'package:bookly/Core/utils/styles.dart';
 import 'package:bookly/Features/Home/presentation/view%20model/featured%20books%20cubit/featuered_books_cubit.dart';
+import 'package:bookly/Features/Home/presentation/view%20model/newest%20books%20cubit/newest_books_cubit.dart';
 import 'package:bookly/Features/Home/presentation/views/widgets/best_seller_book_item.dart';
 import 'package:bookly/Features/Home/presentation/views/widgets/best_seller_books_list.dart';
 import 'package:bookly/Features/Home/presentation/views/widgets/custom_app_bar.dart';
@@ -22,6 +23,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
   void initState() {
     super.initState();
     BlocProvider.of<FeatueredBooksCubit>(context).fetchFeaturedBooks();
+    BlocProvider.of<NewestBooksCubit>(context).fetchNewestBooks();
   }
 
   //
@@ -30,6 +32,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
     //
     return SafeArea(
       child: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
         slivers: [
           SliverToBoxAdapter(
             child: Column(

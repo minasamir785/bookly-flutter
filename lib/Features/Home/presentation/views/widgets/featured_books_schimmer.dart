@@ -20,8 +20,8 @@ class FeaturedBooksShimmer extends StatelessWidget {
                 aspectRatio: 2.5 / 4,
                 child: Shimmer.fromColors(
                   direction: ShimmerDirection.rtl,
-                  baseColor: Colors.white70,
-                  highlightColor: Colors.grey,
+                  baseColor: Colors.grey,
+                  highlightColor: Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(

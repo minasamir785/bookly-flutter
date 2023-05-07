@@ -75,9 +75,9 @@ class _FeaturedItemsListState extends State<FeaturedItemsList> {
         } else {
           return SizedBox(
             height: 0.2 * deviceHeight,
-            child: const Center(
+            child: Center(
               child: Text(
-                "Something went wrong 🔴 !",
+                "${(state as FeatueredBooksFailure).errMessage} 🔴 !  ",
                 style: Styles.textstyle20,
               ),
             ),

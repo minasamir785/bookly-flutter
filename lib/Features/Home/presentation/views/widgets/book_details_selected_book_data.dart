@@ -1,10 +1,16 @@
 import 'package:bookly/Core/utils/styles.dart';
+import 'package:bookly/Features/Home/data/models/book_model/book_model.dart';
 import 'package:bookly/constant.dart';
 import 'package:flutter/material.dart';
 
 class BookDetailsSelectedBookData extends StatelessWidget {
+  final BookModel book;
+
+//
+
   const BookDetailsSelectedBookData({
     super.key,
+    required this.book,
   });
 
   @override
@@ -15,20 +21,24 @@ class BookDetailsSelectedBookData extends StatelessWidget {
 
     //
     return Container(
-      margin: EdgeInsets.only(top: deviceHeight * (40 / 810)),
+      margin: EdgeInsets.only(
+        top: deviceHeight * (40 / 810),
+        left: deviceWidth * (30 / 375),
+        right: deviceWidth * (30 / 375),
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "The Jungle Book",
+            book.volumeInfo!.title ?? "",
             style: Styles.textstyle30.copyWith(fontFamily: kSpectralFont),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
           ),
-          const Text(
-            "Rudyard Kipling",
+          Text(
+            (book.volumeInfo!.authors ?? []).join(", "),
             style: Styles.textstyleLowOpacity18,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
@@ -45,15 +55,15 @@ class BookDetailsSelectedBookData extends StatelessWidget {
                 color: Colors.amber,
                 size: 18,
               ),
-              const Text(
-                " 4.7",
+              Text(
+                " ${book.volumeInfo!.averageRating ?? '0'}",
                 style: Styles.textstyle16,
               ),
               SizedBox(
                 width: deviceWidth * (9 / 475),
               ),
               Text(
-                "(2222)",
+                "(${book.volumeInfo!.ratingsCount ?? '0'})",
                 overflow: TextOverflow.ellipsis,
                 style: Styles.textstyleLowOpacity14,
               ),
